@@ -41,16 +41,16 @@ async def start_quiz(message: Message):
     total_users = await get_total_users()
     created = user['created_at'][:16] if user['created_at'] else "-"
     await message.answer(
-        f"👤 <b>Личный кабинет</b>\n\n"
-        f"Имя: <b>{user['full_name']}</b>\n"
+        f"👤 **Личный кабинет**\n\n"
+        f"Имя: **{user['full_name']}**\n"
         f"📅 С нами с: {created}\n\n"
-        f"📊 <b>Статистика</b>\n"
+        f"📊 **Статистика**\n"
         f"💼Всего задач: {total_done}\n"
         f"✅ Правильных: {user['correct_answers']}\n"
         f"❌ Неправильных: {user['incorrect_answers']}\n"
         f"{winrate_line}\n\n"
         f"🏆 Место в топе: <b>{rank}</b> из {total_users}",
-        parse_mode="HTML")
+        parse_mode="MarkdownV2")
 async def main():
     await init_db()
     await bot.delete_webhook(drop_pending_updates=True)
