@@ -10,3 +10,4 @@ venv/
 *.sqlite3
 src_private.py
 src_private.py
+bot_database.db
