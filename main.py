@@ -1,8 +1,8 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton, BotCommand
+from aiogram import Bot, Dispatcher
+from aiogram.types import BotCommand
 
 import src_private
 from database import init_db

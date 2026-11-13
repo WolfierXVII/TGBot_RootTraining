@@ -2,7 +2,7 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from database import get_user, get_user_rank,get_total_users
+from database import get_user, get_user_rank, get_total_users
 
 router = Router()
 
@@ -27,7 +27,7 @@ async def cabinet(message: Message):
         f"Имя: <b>{user['full_name']}</b>\n"
         f"📅 С нами с: {created}\n\n"
         f"📊 <b>Статистика</b>\n"
-        f"💼Всего задач: <b>{total_done}</b>\n"
+        f"💼 Всего задач: <b>{total_done}</b>\n"
         f"✅ Правильных: <b>{user['correct_answers']}</b>\n"
         f"❌ Неправильных: <b>{user['incorrect_answers']}</b>\n"
         f"{winrate}"

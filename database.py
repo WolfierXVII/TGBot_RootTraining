@@ -2,6 +2,7 @@ import aiosqlite
 
 DB_NAME = 'bot_database.db'
 
+
 async def init_db():
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute('''
@@ -16,6 +17,7 @@ async def init_db():
         ''')
         await db.commit()
 
+
 async def add_user(telegram_id: int, full_name: str):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute('''
@@ -24,6 +26,7 @@ async def add_user(telegram_id: int, full_name: str):
         ''', (telegram_id, full_name))
         await db.commit()
 
+
 async def get_user(telegram_id: int):
     async with aiosqlite.connect(DB_NAME) as db:
         db.row_factory = aiosqlite.Row
@@ -31,6 +34,7 @@ async def get_user(telegram_id: int):
             'SELECT * FROM users WHERE telegram_id = ?',(telegram_id,)
         ) as cursor:
             return await cursor.fetchone()
+
 
 async def get_user_rank(telegram_id:int):
     async with aiosqlite.connect(DB_NAME) as db:
@@ -45,9 +49,21 @@ async def get_user_rank(telegram_id:int):
             row = await cursor.fetchone()
             return row['better'] + 1 if row else None
 
+
 async def get_total_users():
     async with aiosqlite.connect(DB_NAME) as db:
         db.row_factory = aiosqlite.Row
         async with db.execute('SELECT COUNT(*) AS total FROM users') as cursor:
             row = await cursor.fetchone()
             return row['total'] if row else 0
+
+async def get_top_users(limit: int=10):
+    async with aiosqlite.connect(DB_NAME) as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            '''SELECT telegram_id, full_name, correct_answers
+                FROM users
+                ORDER BY correct_answers DESC, telegram_id ASC
+                LIMIT ?''',(limit,)
+        ) as cursor:
+            return await cursor.fetchall()

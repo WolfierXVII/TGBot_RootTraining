@@ -9,8 +9,8 @@ router = Router()
 @router.message(CommandStart())
 async def cmd_start(message: Message):
     await add_user(
-        telegram_id=message.from_user.id,
-        full_name=message.from_user.full_name
+        telegram_id = message.from_user.id,
+        full_name = message.from_user.full_name
     )
     await message.answer(f"Приветствую тебя,{message.from_user.full_name}!\n"
                         f"При помощи данного бота ты сможешь обучиться считать приближённые корни чисел!\n"
@@ -20,7 +20,7 @@ async def cmd_start(message: Message):
                         f"/tasks — ▶️ Практика \n"
                         f"/top — 🏆 Топ игроков\n"
                         f"/help — ❓ Справка",
-                        parse_mode="HTML"
+                        parse_mode = "HTML"
                         )
 
 
@@ -37,5 +37,5 @@ async def cmd_help(message: Message):
         "/tasks — решать задачи\n"
         "/top — топ игроков\n"
         "/help — эта справка",
-        parse_mode="HTML"
+        parse_mode = "HTML"
     )
