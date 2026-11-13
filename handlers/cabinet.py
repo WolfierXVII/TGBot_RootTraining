@@ -1,3 +1,13 @@
+from aiogram import Router
+from aiogram.filters import Command
+from aiogram.types import Message
+
+from database import get_user, get_user_rank,get_total_users
+
+router = Router()
+
+
+@router.message(Command("cabinet"))
 async def cabinet(message: Message):
     user = await get_user(message.from_user.id)
     if user is None:
