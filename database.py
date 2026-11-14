@@ -13,7 +13,9 @@ async def init_db():
                 full_name TEXT,
                 correct_answers INTEGER DEFAULT 0,
                 incorrect_answers INTEGER DEFAULT 0,
-                learned BOOLEAN DEFAULT 0
+                learned BOOLEAN DEFAULT 0,
+                current_number INTEGER DEFAULT NULL,
+                current_precision REAL DEFAULT NULL
             )
         ''')
         await db.commit()
@@ -88,4 +90,5 @@ async def is_learned(telegram_id: int) -> bool:
         ) as cursor: 
             row = await cursor.fetchone()
             return bool(row['learned']) if row else False
-        
+
+
