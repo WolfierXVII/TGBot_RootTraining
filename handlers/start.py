@@ -12,7 +12,7 @@ async def cmd_start(message: Message):
         telegram_id = message.from_user.id,
         full_name = message.from_user.full_name
     )
-    await message.answer(f"Приветствую тебя,{message.from_user.full_name}!\n"
+    await message.answer(f"Приветствую тебя, {message.from_user.full_name}!\n"
                         f"При помощи данного бота ты сможешь обучиться считать приближённые корни чисел!\n"
                         f"Тебе доступны следующие команды:\n"
                         f"/cabinet — 👤 Личный кабинет\n"

@@ -2,9 +2,9 @@ import math
 import random
 
 LEVELS = {
-    "easy":   {"root_lo": 2, "root_hi": 7,  "percent": 10, "precision": 0.1},
-    "medium": {"root_lo": 5, "root_hi": 10, "percent": 25, "precision": 0.01},
-    "hard":   {"root_lo": 7, "root_hi": 15, "percent": 40, "precision": 0.001},
+    "easy":   {"root_lo": 2, "root_hi": 7,  "percent": 10, "precision": 0.1,   "name":"🟢 Лёгкий"},
+    "medium": {"root_lo": 5, "root_hi": 10, "percent": 25, "precision": 0.01,  "name":"🟡 Средний"},
+    "hard":   {"root_lo": 7, "root_hi": 15, "percent": 40, "precision": 0.001, "name":"🔴 Сложный"},
 }
 
 
@@ -35,3 +35,11 @@ def check_answer(user_answer: float, task: dict) -> bool:
 
 def correct_answer(task: dict) -> float:
     return math.sqrt(task["number"])
+
+def get_callibration_level(total_done: int) -> str:
+    if total_done < 3:
+        return "easy"
+    elif total_done < 6:
+        return "medium"
+    else:
+        return "hard"

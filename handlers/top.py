@@ -23,8 +23,9 @@ async def cmd_top(message: Message):
         lines.append(f"{places} {name} — <b>{user['correct_answers']}</b> задач")
 
     my_rank = await get_user_rank(message.from_user.id)
-    if my_rank > 10:
-        my_data= await get_user(message.from_user.id)  
+    if my_rank > 10 and my_rank:
+        my_data= await get_user(message.from_user.id)
+        name = my_data['full_name'] or "—"  
         lines.append(f"\n...")
         lines.append(f"{my_rank}. {my_data['full_name']} — <b>{my_data['correct_answers']}</b> задач")
 
