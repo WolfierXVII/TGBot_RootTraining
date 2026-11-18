@@ -16,6 +16,7 @@ async def init_db():
                 learned BOOLEAN DEFAULT 0,
                 current_number INTEGER DEFAULT NULL,
                 current_precision REAL DEFAULT NULL
+                current_deadline REAL DEFAULT NULL
             )
         ''')
         await db.commit()
@@ -92,10 +93,10 @@ async def is_learned(telegram_id: int) -> bool:
             return bool(row['learned']) if row else False
 
 
-async def set_current_task(telegram_id: int, number: int, presicion: float):
+async def set_current_task(telegram_id: int, number: int, presicion: float, deadline: float):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute(
-            'UPDATE users SET current_number = ?, current_precision = ? WHERE telegram_id = ?',(number,presicion,telegram_id)
+            'UPDATE users SET current_number = ?, current_precision = ?, current_deadline = ? WHERE telegram_id = ?',(number,presicion, deadline, telegram_id)
         )
         await db.commit()
 
@@ -104,28 +105,29 @@ async def get_current_task(telegram_id: int):
     async with aiosqlite.connect(DB_NAME) as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
-            'SELECT current_number, current_precision FROM users WHERE telegram_id = ?',(telegram_id,)
+            'SELECT current_number, current_precision, current_deadline FROM users WHERE telegram_id = ?',(telegram_id,)
         ) as cursor:
             row = await cursor.fetchone()
             if row and row['current_number'] is not None:
                 return{
                     'number': row['current_number'],
                     'precision': row['current_precision'],
+                    'deadline': row['current_deadline']
                 }
             return None
 
 
-async def crear_current_task(telegram_id: int):
+async def clear_current_task(telegram_id: int):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute(
-            'UPDATE users SET current_number = NULL, current_precision = NULL WHERE telegram_id = ?',
+            'UPDATE users SET current_number = NULL, current_precision = NULL, current_precision = NULL WHERE telegram_id = ?',
             (telegram_id,)
         )
         await db.commit()
 
 
 async def increment_stats(telegram_id: int, is_correct: bool):
-    column = 'correct_answer' if is_correct else 'incorrect_answers'
+    column = 'correct_answers' if is_correct else 'incorrect_answers'
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute(
             f'UPDATE users SET {column} = {column} + 1 WHERE telegram_id = ?',(telegram_id,)
