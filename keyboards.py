@@ -16,3 +16,10 @@ def theory_keyboard(step: int,total: int) -> InlineKeyboardMarkup:
         buttons.append([InlineKeyboardButton(text="🏠 В меню", callback_data="to_menu")])
 
     return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+
+def tasks_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="📝 Получить задачу", callback_data="get_task")],
+        [InlineKeyboardButton(text="👤 В личный кабинет", callback_data="to_cabinet")],
+    ])

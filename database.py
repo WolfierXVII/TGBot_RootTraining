@@ -15,7 +15,7 @@ async def init_db():
                 incorrect_answers INTEGER DEFAULT 0,
                 learned BOOLEAN DEFAULT 0,
                 current_number INTEGER DEFAULT NULL,
-                current_precision REAL DEFAULT NULL
+                current_precision REAL DEFAULT NULL,
                 current_deadline REAL DEFAULT NULL
             )
         ''')
@@ -120,7 +120,7 @@ async def get_current_task(telegram_id: int):
 async def clear_current_task(telegram_id: int):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute(
-            'UPDATE users SET current_number = NULL, current_precision = NULL, current_precision = NULL WHERE telegram_id = ?',
+            'UPDATE users SET current_number = NULL, current_precision = NULL, current_deadline = NULL WHERE telegram_id = ?',
             (telegram_id,)
         )
         await db.commit()
